@@ -116,13 +116,59 @@ public class MazeGenerator : MonoBehaviour
                 //Add the chosen node to the chosen dirtection index
                 MazeNode chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
+                //Switch statement to decide which walls are destroyed
+                switch(possibleDirections[chosenDirection])
+                {
+                    //Every node in the maze overlaps therefore you must remove the walls opposite sides of each node
+                    //For example I will remove the top wall from the current node and the bottom wall from the chosen node so there is no overlapping
+                    case 1:
+                        //Remove the left wall from the chosen node
+                        chosenNode.RemoveWall(1);
+                        //Removing the wall from the right of the current wall
+                        currentPath[currentPath.Count - 1].RemoveWall(0);
+                        break;
+
+                    case 2:
+                        //Remove the right wall from the chosen node
+                        chosenNode.RemoveWall(0);
+                        //Remove the left wall from the current node
+                        currentPath[currentPath.Count - 1].RemoveWall(1);
+                            break;
+
+                    case 3:
+                        //Remove the bottom wall from the chosen node
+                        chosenNode.RemoveWall(3);
+                        //Remove the top wall from the current node
+                        currentPath[currentPath.Count - 1].RemoveWall(2);
+                        break;
+
+                    case 4:
+                        //Remove the top wall from the chosen node
+                        chosenNode.RemoveWall(2);
+                        //Remove the bottom wall from the current node
+                        currentPath[currentPath.Count - 1].RemoveWall(3);
+                        break;
+                }
+
                 //Add the chosen node to current path
                 currentPath.Add(chosenNode);
 
                 //Set chosen node to current state
                 chosenNode.SetState(NodeState.Current);
             }
+            //No more possible nodes so backtrack the path until there are new possible directions
+            else
+            {
+                //Add current node to the completed nodes path
+                CompletedNodes.Add(currentPath[currentPath.Count - 1]);
 
+                //Changing state of current node
+                currentPath[currentPath.Count - 1].SetState(NodeState.Completed);
+                //removing that node from currentPath
+                currentPath.RemoveAt(currentPath.Count - 1);
+            }
+
+            //To show the generation of the maze
             yield return new WaitForSeconds(0.05f);
         }
     }
