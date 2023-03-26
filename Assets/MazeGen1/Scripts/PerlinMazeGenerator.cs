@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MazeGenerator : MonoBehaviour
+public class PerlinMazeGenerator : MonoBehaviour
 {
     public GameObject wallPrefab; // reference to the cube wall prefab
     public int mazeSize = 15; // size of the maze
