@@ -127,7 +127,7 @@ public class MazeGenerator : MonoBehaviour
                         //Removing the wall from the right of the current wall
                         currentPath[currentPath.Count - 1].RemoveWall(0);
                         break;
-
+                        
                     case 2:
                         //Remove the right wall from the chosen node
                         chosenNode.RemoveWall(0);
