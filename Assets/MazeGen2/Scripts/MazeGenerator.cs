@@ -7,9 +7,12 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] MazeNode nodePrefab;
     [SerializeField] Vector2Int mazeSize;
 
+    public GameObject player;
+
     private void Start()
     {
         StartCoroutine(GenerateMaze(mazeSize));
+        player = GameObject.Find("Player");
     }
 
     IEnumerator GenerateMaze(Vector2Int size)
@@ -17,9 +20,9 @@ public class MazeGenerator : MonoBehaviour
         List<MazeNode> nodes = new List<MazeNode>();
 
         //Create the nodes
-        for(int x = 0; x < size.x; x++)
+        for (int x = 0; x < size.x; x++)
         {
-            for(int y = 0; y < size.y; y++)
+            for (int y = 0; y < size.y; y++)
             {
                 // Centres the maze aeound 0 instead of the bottom left
                 Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
@@ -38,14 +41,54 @@ public class MazeGenerator : MonoBehaviour
         List<MazeNode> currentPath = new List<MazeNode>();
         List<MazeNode> CompletedNodes = new List<MazeNode>();
 
+        //Create new lists for the starting and ending nodes
+        List<MazeNode> startNode = new List<MazeNode>();
+        List<MazeNode> endNode = new List<MazeNode>();
+
+
+
         //Select a starting node at random from all nodes genrated in the list
         currentPath.Add(nodes[Random.Range(0, nodes.Count)]);
+        //startNodePos.Add(currentPath);
+
+        //List to hold start and end nodes positions
+        List<Vector3> startNodePos = new List<Vector3>();
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            for (int j = 0; j < nodes.Count; j++)
+            {
+                for (int k = 0; k < nodes.Count; k++)
+                {
+                    Vector3 startPosition = new Vector3(i, j, k);
+                    //Add the position to the list
+                    startNodePos.Add(startPosition);
+                    Vector3 firstStartPosition = startNodePos[0];
+
+                    //Move the player to the start location
+                    player.transform.position = new Vector3(i, j, k);
+                }
+            }
+        }
+
+        List<Vector3> endNodePos = new List<Vector3>();
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            for (int j = 0; j < nodes.Count; j++)
+            {
+                for (int k = 0; k < nodes.Count; k++)
+                {
+                    Vector3 endPosition = new Vector3(i, j, k);
+                    //Add the position to the list
+                    endNodePos.Add(endPosition);
+                }
+            }
+        }
 
         //Add the starting node to the current path state
         currentPath[0].SetState(NodeState.Current);
 
-        //Check if there are still nodes left if so continue looping
-        while(CompletedNodes.Count < nodes.Count)
+        //Check if there are still nodes left, if so continue looping
+        while (CompletedNodes.Count < nodes.Count)
         {
             //Check the nodes next to the current node
 
@@ -86,7 +129,7 @@ public class MazeGenerator : MonoBehaviour
             }
 
             //Check node to the above of current node
-            if(currentNodeY < size.y - 1)
+            if (currentNodeY < size.y - 1)
             {
                 if (!CompletedNodes.Contains(nodes[currentNodeIndex + 1]) &&
                     !currentPath.Contains(nodes[currentNodeIndex + 1]))
@@ -97,7 +140,7 @@ public class MazeGenerator : MonoBehaviour
             }
 
             //Check node to the below of current node
-            if(currentNodeY > 0)
+            if (currentNodeY > 0)
             {
                 if (!CompletedNodes.Contains(nodes[currentNodeIndex - 1]) &&
                     !currentPath.Contains(nodes[currentNodeIndex - 1]))
@@ -108,7 +151,7 @@ public class MazeGenerator : MonoBehaviour
             }
 
             //Chosing next node
-            if(possibleDirections.Count > 0)
+            if (possibleDirections.Count > 0)
             {
                 //Randomly choose direction
                 int chosenDirection = Random.Range(0, possibleDirections.Count);
@@ -117,7 +160,7 @@ public class MazeGenerator : MonoBehaviour
                 MazeNode chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
                 //Switch statement to decide which walls are destroyed
-                switch(possibleDirections[chosenDirection])
+                switch (possibleDirections[chosenDirection])
                 {
                     //Every node in the maze overlaps therefore you must remove the walls opposite sides of each node
                     //For example I will remove the top wall from the current node and the bottom wall from the chosen node so there is no overlapping
@@ -127,13 +170,13 @@ public class MazeGenerator : MonoBehaviour
                         //Removing the wall from the right of the current wall
                         currentPath[currentPath.Count - 1].RemoveWall(0);
                         break;
-                        
+
                     case 2:
                         //Remove the right wall from the chosen node
                         chosenNode.RemoveWall(0);
                         //Remove the left wall from the current node
                         currentPath[currentPath.Count - 1].RemoveWall(1);
-                            break;
+                        break;
 
                     case 3:
                         //Remove the bottom wall from the chosen node
@@ -169,7 +212,12 @@ public class MazeGenerator : MonoBehaviour
             }
 
             //To show the generation of the maze
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.005f);
         }
+
+        //Select a random node to become the end point
+        CompletedNodes[^1].SetState(NodeState.Start);
+
+        CompletedNodes[0].SetState(NodeState.End);
     }
 }
