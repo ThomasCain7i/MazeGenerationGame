@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BallCotroller : MonoBehaviour
 {
@@ -14,22 +15,24 @@ public class BallCotroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") > 0)
         {
             rigid.AddForce(Vector3.right * speed);
         }
-        else if(Input.GetAxis("Horizontal") < 0)
+        else if (Input.GetAxis("Horizontal") < 0)
         {
             rigid.AddForce(-Vector3.right * speed);
         }
 
-        if(Input.GetAxis("Vertical") > 0)
+        if (Input.GetAxis("Vertical") > 0)
         {
             rigid.AddForce(Vector3.forward * speed);
         }
-        else if(Input.GetAxis("Vertical") < 0)
+        else if (Input.GetAxis("Vertical") < 0)
         {
             rigid.AddForce(-Vector3.forward * speed);
         }
+
+
     }
 }

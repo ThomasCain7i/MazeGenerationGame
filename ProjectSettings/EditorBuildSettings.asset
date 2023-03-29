@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MazeGen2/Scenes/MazeGenerator.unity
+    guid: de1afeb7fa4f26f41a53f27c530bf332
+  - enabled: 1
+    path: Assets/MazeGen2/Scenes/Starting Level.unity
+    guid: 26a1c7798f670ad4ba6feabeb2ce55f6
   m_configObjects: {}

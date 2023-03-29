@@ -8,11 +8,13 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] Vector2Int mazeSize;
 
     public GameObject player;
+    public GameObject endPoint;
 
     private void Start()
     {
         StartCoroutine(GenerateMaze(mazeSize));
         player = GameObject.Find("Player");
+        endPoint = GameObject.Find("EndPoint");
     }
 
     IEnumerator GenerateMaze(Vector2Int size)
@@ -53,19 +55,18 @@ public class MazeGenerator : MonoBehaviour
 
         //List to hold start and end nodes positions
         List<Vector3> startNodePos = new List<Vector3>();
-        for (int i = 0; i < nodes.Count; i++)
+        for (int i = 0; i < nodes.Count - 1; i++)
         {
-            for (int j = 0; j < nodes.Count; j++)
+            for (int j = 0; j < nodes.Count - 1; j++)
             {
-                for (int k = 0; k < nodes.Count; k++)
+                for (int k = 0; k < nodes.Count - 1; k++)
                 {
                     Vector3 startPosition = new Vector3(i, j, k);
                     //Add the position to the list
                     startNodePos.Add(startPosition);
-                    Vector3 firstStartPosition = startNodePos[0];
-
+                    startNodePos[0] = startPosition;
                     //Move the player to the start location
-                    player.transform.position = new Vector3(i, j, k);
+                    player.transform.position = startNodePos[0];
                 }
             }
         }
@@ -80,6 +81,9 @@ public class MazeGenerator : MonoBehaviour
                     Vector3 endPosition = new Vector3(i, j, k);
                     //Add the position to the list
                     endNodePos.Add(endPosition);
+                    Vector3 firstEndPosition = endNodePos[0];
+
+                    //endPoint.transform.position = endNodePos[0];
                 }
             }
         }
