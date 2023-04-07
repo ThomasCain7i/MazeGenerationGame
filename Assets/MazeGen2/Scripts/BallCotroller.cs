@@ -32,7 +32,5 @@ public class BallCotroller : MonoBehaviour
         {
             rigid.AddForce(-Vector3.forward * speed);
         }
-
-
     }
 }

@@ -212,6 +212,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 6713523163955090765, guid: fdf9f40dec6ac1a4193ce70bfbdc743b, type: 3}
   mazeSize: {x: 15, y: 15}
   player: {fileID: 0}
+  endPoint: {fileID: 0}
 --- !u!4 &251261342
 Transform:
   m_ObjectHideFlags: 0
@@ -328,7 +329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 920700173025189891, guid: 7699a6c8ba03c134eaab0c4fc147ca0b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 100
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 920700173025189891, guid: 7699a6c8ba03c134eaab0c4fc147ca0b, type: 3}
       propertyPath: m_LocalPosition.z

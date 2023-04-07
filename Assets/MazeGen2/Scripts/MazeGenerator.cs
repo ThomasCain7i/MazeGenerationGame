@@ -19,6 +19,7 @@ public class MazeGenerator : MonoBehaviour
 
     IEnumerator GenerateMaze(Vector2Int size)
     {
+        //List of all created nodes
         List<MazeNode> nodes = new List<MazeNode>();
 
         //Create the nodes
@@ -46,8 +47,6 @@ public class MazeGenerator : MonoBehaviour
         //Create new lists for the starting and ending nodes
         List<MazeNode> startNode = new List<MazeNode>();
         List<MazeNode> endNode = new List<MazeNode>();
-
-
 
         //Select a starting node at random from all nodes genrated in the list
         currentPath.Add(nodes[Random.Range(0, nodes.Count)]);
