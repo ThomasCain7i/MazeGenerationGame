@@ -52,7 +52,7 @@ public class MazeGenerator : MonoBehaviour
         currentPath.Add(nodes[Random.Range(0, nodes.Count)]);
         //startNodePos.Add(currentPath);
 
-        //List to hold start and end nodes positions
+        //List to hold start positions
         List<Vector3> startNodePos = new List<Vector3>();
         for (int i = 0; i < nodes.Count - 1; i++)
         {
